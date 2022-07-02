@@ -1,9 +1,9 @@
-import AuthRouter from "./routers/AuthRouter";
+import { UserAuthContextProvider } from "./contexts/userAuthContext";
 
 const App = () => {
   return (
     <>
-     <AuthRouter />
+      
     </>
   );
 }
