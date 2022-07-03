@@ -22,7 +22,7 @@ export const UserAuthContextProvider = ({children}: any) => {
         return createUserWithEmailAndPassword(auth, email, password);
     }
 
-    function logOut() {
+    function logOut(): void {
         signOut(auth);
     } 
 
