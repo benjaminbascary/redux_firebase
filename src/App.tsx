@@ -4,6 +4,7 @@ import { Login } from "./components/LogIn";
 import { NotFound } from "./components/NotFound";
 import { SignUp } from "./components/SignUp";
 import { UserAuthContextProvider } from "./contexts/userAuthContext";
+import './styles/media.css';
 
 const App = () => {
   return (
