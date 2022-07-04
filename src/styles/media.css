@@ -1,0 +1,14 @@
+
+@media screen and (max-width: 768px) {
+    .login-logout-left-container {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    .spinner-container {
+        display: none;
+    }
+}
+
