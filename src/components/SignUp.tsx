@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useUserAuth } from '../contexts/userAuthContext';
 import { 
     FormControl, 
@@ -19,7 +19,7 @@ type UserState = {
     password: string;
 }
 
-export const SignUp = () => {
+export const SignUp = (): JSX.Element => {
 
     const [userState, setUserState] = useState<UserState>({email: '', password: ''})
     const [error, setError] = useState<any>();
@@ -44,7 +44,7 @@ export const SignUp = () => {
 
     return (
         <>
-            <Heading display='flex' justifyContent='center' m='2vh'>Sign Up</Heading>
+            <Heading display='flex' justifyContent='center' m='2vh'>Sing Up</Heading>
             <Box display='flex' justifyContent='center' alignItems='center'>
                 <Box>
                 {error && <Alert 
@@ -66,7 +66,7 @@ export const SignUp = () => {
                         <FormHelperText>Enter your password.</FormHelperText>
                     </FormControl>
                     <Box display='flex' justifyContent='center'>
-                        <Button onClick={handleSubmit}>
+                        <Button colorScheme='teal' onClick={handleSubmit}>
                             Sign Up
                         </Button>
                     </Box>
