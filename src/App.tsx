@@ -4,6 +4,7 @@ import { Login } from "./components/LogIn";
 import { NotFound } from "./components/NotFound";
 import { SignUp } from "./components/SignUp";
 import { UserAuthContextProvider } from "./contexts/userAuthContext";
+import ProtectedRoute from './routers/protectedRoute';
 import './styles/media.css';
 
 const App = () => {
@@ -11,7 +12,14 @@ const App = () => {
     <>
     <UserAuthContextProvider>
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route 
+          path="/home" 
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          } 
+        />
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="*" element={<NotFound />} />
