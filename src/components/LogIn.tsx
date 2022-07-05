@@ -24,7 +24,7 @@ export const Login = () => {
     const [userState, setUserState] = useState<LogInType>({email: '', password: ''});
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<any>();
-    const { logIn } = useUserAuth();
+    const { logIn, googleSignIn } = useUserAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -42,6 +42,17 @@ export const Login = () => {
 
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
         setUserState({...userState, [event.currentTarget.name]: event.currentTarget.value})
+    }
+
+    const handleGoogleSignIn = async (event: React.MouseEvent) => {
+        event.preventDefault();
+        try {
+            await googleSignIn();
+            navigate('/home');
+        } catch (error: any) {
+            console.log(error.message);
+        }
+
     }
 
 
@@ -87,6 +98,7 @@ export const Login = () => {
                             <GoogleButton
                                 className="g-btn"
                                 type="dark"
+                                onClick={handleGoogleSignIn}
                                 />
                             </Box>
                             <Box display='flex' flexDirection='row'>
