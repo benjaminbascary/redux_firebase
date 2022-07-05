@@ -1,13 +1,16 @@
+import { Box, Divider } from '@chakra-ui/react';
 import React from 'react'
+import { Header } from './Header';
 import { useUserAuth } from '../contexts/userAuthContext'
 
 export const Home = () => {
 
   const {user} = useUserAuth();
-  console.log(user)
+  
   return (
-    <div>
-      
-    </div>
+  <Box>
+    <Header />
+  </Box>
+
   )
 }
