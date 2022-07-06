@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { IssueType } from '../types/issueType';
 import { MyUserType } from '../types/myUserType';
+import { createIssue } from '../api/firestore-api';
+import { Timestamp } from 'firebase/firestore/lite';
+import { priorityOptions } from '../utils/priorityOptions';
+import { OptionsType } from '../types/optionsType';
 import { 
     Box, 
     Button, 
@@ -9,11 +13,7 @@ import {
     Input, 
     Select, 
     Textarea 
-} from '@chakra-ui/react'
-import { createIssue } from '../api/firestore-api';
-import { Timestamp } from 'firebase/firestore/lite';
-import { priorityOptions } from '../utils/priorityOptions';
-import { OptionsType } from '../types/optionsType';
+} from '@chakra-ui/react';
 
 export const AddIssueForm = ({ user }: { user: MyUserType }) => {
 
@@ -30,16 +30,13 @@ export const AddIssueForm = ({ user }: { user: MyUserType }) => {
         completed: false
     });
 
-    
-
     useEffect(() => {
         setMyUser(user);
-        console.log(Timestamp.now())
     }, []);
 
     useEffect(() => {
         setIssue({...issue, ['addedBy'] : myUser?.displayName });
-    }, [issue.issue])
+    }, [issue.priority])
 
     const handleShowForm = (): void => {
         setShowForm(prevValue => !prevValue);
@@ -52,7 +49,6 @@ export const AddIssueForm = ({ user }: { user: MyUserType }) => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        console.log(issue);
         createIssue(issue);
     }
     
@@ -103,7 +99,7 @@ export const AddIssueForm = ({ user }: { user: MyUserType }) => {
                         />
                     </FormControl>
                     <FormControl isRequired>
-                        <FormLabel htmlFor='country'>Priority</FormLabel>
+                        <FormLabel htmlFor='priority'>Priority</FormLabel>
                         <Select value={issue.priority} name='priority' onChange={handleChange} placeholder='Select priority'>
                             {
                                 myOptions.map(eachOption => {
