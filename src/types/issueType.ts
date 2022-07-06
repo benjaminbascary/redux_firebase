@@ -3,6 +3,14 @@ export type IssueType = {
     issue: string;
     assignedTo: string;
     considerations: string;
-    priority: "low" | "medium" | "high"
-    completed: boolean;
+    priority: "Low" | "Medium" | "High" | "No deadline",
+    created: TimeStamp,
+    completed: boolean
 }
+
+// Tymestamp type:
+
+export interface TimeStamp {
+    seconds: number
+    nanoseconds: number
+  }

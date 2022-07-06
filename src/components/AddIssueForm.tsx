@@ -7,24 +7,34 @@ import {
     FormControl, 
     FormLabel, 
     Input, 
+    Select, 
     Textarea 
 } from '@chakra-ui/react'
+import { createIssue } from '../api/firestore-api';
+import { Timestamp } from 'firebase/firestore/lite';
+import { priorityOptions } from '../utils/priorityOptions';
+import { OptionsType } from '../types/optionsType';
 
 export const AddIssueForm = ({ user }: { user: MyUserType }) => {
 
     const [ myUser, setMyUser ] = useState<MyUserType>();
     const [ showForm, setShowForm ] = useState<boolean>(false);
+    const [ myOptions, setMyOptions] = useState<OptionsType[]>(priorityOptions);
     const [ issue, setIssue ] = useState<IssueType>({
         addedBy: myUser?.displayName,
         issue: '',
         assignedTo: '',
         considerations: '',
-        priority: 'low',
+        priority: 'Low',
+        created: Timestamp.now(),
         completed: false
     });
 
+    
+
     useEffect(() => {
         setMyUser(user);
+        console.log(Timestamp.now())
     }, []);
 
     useEffect(() => {
@@ -35,14 +45,15 @@ export const AddIssueForm = ({ user }: { user: MyUserType }) => {
         setShowForm(prevValue => !prevValue);
     }
 
-    const handleChange = (event: React.FormEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    const handleChange = (event: React.FormEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>) => {
         event.preventDefault();
         setIssue({...issue, [event.currentTarget.name]: event.currentTarget.value });
     }
 
-    const handleSubmit = async (event: React.FormEvent) => {
+    const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         console.log(issue);
+        createIssue(issue);
     }
     
     return (
@@ -90,6 +101,20 @@ export const AddIssueForm = ({ user }: { user: MyUserType }) => {
                             value={issue.considerations}
                             onChange={handleChange}
                         />
+                    </FormControl>
+                    <FormControl isRequired>
+                        <FormLabel htmlFor='country'>Priority</FormLabel>
+                        <Select value={issue.priority} name='priority' onChange={handleChange} placeholder='Select priority'>
+                            {
+                                myOptions.map(eachOption => {
+                                    return (
+                                        <option key={eachOption.value} value={eachOption.value}>
+                                            {eachOption.text}
+                                        </option>
+                                    )
+                                })
+                            }
+                        </Select>
                     </FormControl>
                     <Button 
                         type='submit' 
