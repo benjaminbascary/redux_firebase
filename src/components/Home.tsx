@@ -1,10 +1,8 @@
-import { Box } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react'
+import { Badge, Box, Img } from '@chakra-ui/react';
 import { Header } from './Header';
 import { useUserAuth } from '../contexts/userAuthContext'
-import { MyUserType } from '../types/myUserType';
-import { IssueType } from '../types/issueType';
 import { AddIssueForm } from './AddIssueForm';
+import { MyTeam } from './MyTeam';
 
 export const Home = (): JSX.Element => {
 
@@ -13,7 +11,26 @@ export const Home = (): JSX.Element => {
   return (
   <Box>
     <Header />
-    <AddIssueForm user={user} />
+    <Box className='status-buttons-container' justifyContent='space-between' display='flex' h='6vh' mt='2vh'>
+        <Badge h='3vh' ml='2vh' p='5px' borderRadius='1vh' display='flex' alignSelf='center' alignItems='center'>
+            Status: 
+			{
+			user ? ( 
+				<Badge borderRadius='5px' ml='1vh' colorScheme='whatsapp'>ONLINE</Badge>
+			) : (
+				<Badge colorScheme='red'>OFFLINE</Badge>
+			) 
+			}
+        </Badge>
+        <Box display='flex' flexDirection='row' alignItems='center' justifyContent='center'>  
+          <AddIssueForm user={user} />
+          <MyTeam user={user} />
+        </Box>
+		<Badge className='email-badge' p='1vh' mr='2vh' borderRadius='1.5vh' display='flex' alignItems='center'>
+			{user.email}
+			<Img borderRadius='50%' h='5vh' src={user.photoURL} ml='1vh'/>
+        </Badge>
+    </Box>
   </Box>
 
   )

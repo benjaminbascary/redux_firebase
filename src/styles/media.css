@@ -10,5 +10,14 @@
     .spinner-container {
         display: none;
     }
+
+    .status-buttons-container {
+        flex-direction: column;
+    }
+
+    .email-badge {
+       visibility: hidden;
+    }
+
 }
 

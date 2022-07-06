@@ -8,9 +8,6 @@ import {
     signInWithPopup
 } from 'firebase/auth';
 import { auth } from '../firebase-config';
-import { MyUserType } from '../types/myUserType';
-
-
 
 const userAuthContext = createContext<any>(null);
 

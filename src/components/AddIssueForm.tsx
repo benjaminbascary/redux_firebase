@@ -19,14 +19,16 @@ import {
     ModalHeader, 
     ModalOverlay, 
     Select, 
+    Spinner, 
     Textarea, 
     useDisclosure
 } from '@chakra-ui/react';
 
-export const AddIssueForm = ({ user }: { user: MyUserType }) => {
+
+export const AddIssueForm = ({ user } : { user: MyUserType }) => {
 
     const [ myUser, setMyUser ] = useState<MyUserType>();
-    const [ showForm, setShowForm ] = useState<boolean>(false);
+    const [ showSpinner, setShowSpinner ] = useState<boolean>(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [ myOptions, setMyOptions] = useState<OptionsType[]>(priorityOptions);
     const [ issue, setIssue ] = useState<IssueType>({
@@ -47,10 +49,6 @@ export const AddIssueForm = ({ user }: { user: MyUserType }) => {
         setIssue({...issue, ['addedBy'] : myUser?.displayName });
     }, [issue.priority])
 
-    const handleShowForm = (): void => {
-        setShowForm(prevValue => !prevValue);
-    }
-
     const handleChange = (event: React.FormEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>) => {
         event.preventDefault();
         setIssue({...issue, [event.currentTarget.name]: event.currentTarget.value });
@@ -58,8 +56,10 @@ export const AddIssueForm = ({ user }: { user: MyUserType }) => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        console.log(issue)
-        createIssue(issue);
+        setShowSpinner(prevValue => !prevValue);
+        setTimeout(() => setShowSpinner(prevValue => !prevValue), 1100);
+        setTimeout(() => createIssue(issue), 1100);
+        ;
     }
     
     return (
@@ -70,7 +70,7 @@ export const AddIssueForm = ({ user }: { user: MyUserType }) => {
                 color='white'
                 onClick={onOpen}
             >
-            {showForm ? '- Add new issue' : '+ Add new issue'}
+                + Add new issue
             </Button>
             
                 <Modal size='4xl' onClose={onClose} isOpen={isOpen} isCentered>
@@ -128,13 +128,18 @@ export const AddIssueForm = ({ user }: { user: MyUserType }) => {
                                 }
                             </Select>
                         </FormControl>
-                        <Button
-                            colorScheme='linkedin'
-                            type='submit' 
-                            mt='2vh'
-                            onClick={handleSubmit}
-                        >Add to workspace
-                        </Button>
+                        <Box display='flex' flexDirection='row' alignItems='center'>
+                            <Button
+                                colorScheme='linkedin'
+                                type='submit' 
+                                m='2vh 2vh 0vh 0vh'
+                                onClick={handleSubmit}
+                            >Add to workspace
+                            </Button>
+                            {
+                                showSpinner ? <Spinner/> : null
+                            }
+                        </Box>
                     </Box>
                     
                     </ModalBody>
