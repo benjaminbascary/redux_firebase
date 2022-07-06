@@ -1,12 +1,13 @@
-import { Badge, Box, Img } from '@chakra-ui/react';
+import { Avatar, Badge, Box, Img } from '@chakra-ui/react';
 import { Header } from './Header';
 import { useUserAuth } from '../contexts/userAuthContext'
 import { AddIssueForm } from './AddIssueForm';
 import { MyTeam } from './MyTeam';
+import { MyUserType } from '../types/myUserType';
 
 export const Home = (): JSX.Element => {
 
-  const { user } = useUserAuth();
+  const { user } : {user: MyUserType} = useUserAuth();
   
   return (
   <Box>
@@ -28,7 +29,7 @@ export const Home = (): JSX.Element => {
         </Box>
 		<Badge className='email-badge' p='1vh' mr='2vh' borderRadius='1.5vh' display='flex' alignItems='center'>
 			{user.email}
-			<Img borderRadius='50%' h='5vh' src={user.photoURL} ml='1vh'/>
+			<Avatar size='sm' name={user.displayName} src={user.photoURL} ml='1vh'/>
         </Badge>
     </Box>
   </Box>
