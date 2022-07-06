@@ -8,13 +8,14 @@ import {
     signInWithPopup
 } from 'firebase/auth';
 import { auth } from '../firebase-config';
+import { MyUserType } from '../types/myUserType';
 
 
 
 const userAuthContext = createContext<any>(null);
 
-export const UserAuthContextProvider = ({children}: any) => {
-    const [ user, setUser ] = useState<any>({});
+export const UserAuthContextProvider = ({children}: {children: JSX.Element}) => {
+    const [ user, setUser ] = useState<any>();
 
     function logIn(email: string, password: string) {
         return signInWithEmailAndPassword(auth, email, password);
