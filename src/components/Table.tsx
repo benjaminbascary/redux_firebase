@@ -41,7 +41,7 @@ export const IssuesTable = () => {
         }
         if (user) {
             setTimeout(() => setLoading(false), 1500);
-            setTimeout(() => loadAllIssues(), 1600);
+            setTimeout(() => loadAllIssues(), 1500);
         }   
     }, [])
 
