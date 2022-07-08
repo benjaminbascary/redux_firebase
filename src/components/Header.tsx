@@ -26,24 +26,34 @@ import { useNavigate } from 'react-router-dom';
 export const Header = () => {
     const [ loading, setLoading ] = useState<boolean>(false);
     const { logOut } = useUserAuth();
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const navigate = useNavigate();
 
     const handleLogOut = async () => {
-        try {
-            setLoading(prevValue => !prevValue);
-            setTimeout(() => setLoading(prevValue => !prevValue), 2000);
+
+        const loggingOut = async () => {
             await logOut();
-            setTimeout(() => navigate('/'), 2100);
+            navigate('/')
+        };
+
+        try {
+            setLoading(true);
+            setTimeout(() => loggingOut(), 1500);
+            //await logOut();
+            //navigate('/');
         } catch (error: any) {
             console.log(error.message);
         }
     }
 
     return (
-        <Box display='flex' flexDirection='row' justifyContent='space-between' p='2vh' boxShadow="0px 0px 4px rgba(0,0,0,.2)">
+        <Box 
+            display='flex' 
+            flexDirection='row' 
+            justifyContent='space-between' 
+            p='2vh' 
+            boxShadow="0px 0px 4px rgba(0,0,0,.2)">
             <Heading>Issue Tracker</Heading>
-            <Spinner visibility={loading ? 'visible' : 'hidden'} mr='1vh' />
             <Menu>
                 <MenuButton 
                     px={4}
@@ -72,6 +82,9 @@ export const Header = () => {
                 </ModalBody>
 
                 <ModalFooter display='flex'>
+                    {
+                        loading && <Spinner speed='0.65s' mr='1vh' />
+                    }
                     <Button colorScheme='red' mr={3} onClick={handleLogOut}>
                         Log Out
                     </Button>

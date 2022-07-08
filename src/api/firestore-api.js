@@ -20,4 +20,27 @@ export const createIssue = (obj) => {
     return addDoc(colRef, obj).id;
 }
 
+// Get all issues
+
+export const getAllIssues = async () => {
+    const colRef = collection(db, 'issues');
+    const result = await getDocs(query(colRef));
+    return getArrayFromCollection(result);
+}
+
+
+
+
+
+
+
+
+
+// Entity mapper to get all issues into an array
+
+const getArrayFromCollection = (collection) => {
+    return collection.docs.map(doc => {
+        return { ...doc.data(), id: doc.id };
+    });
+}
 

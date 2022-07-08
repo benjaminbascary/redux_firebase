@@ -4,6 +4,8 @@ import { useUserAuth } from '../contexts/userAuthContext'
 import { AddIssueForm } from './AddIssueForm';
 import { MyTeam } from './MyTeam';
 import { MyUserType } from '../types/myUserType';
+import { useState } from 'react';
+import { IssuesTable } from './Table';
 
 export const Home = (): JSX.Element => {
 
@@ -32,6 +34,7 @@ export const Home = (): JSX.Element => {
 			<Avatar size='sm' name={user.displayName} src={user.photoURL} ml='1vh'/>
         </Badge>
     </Box>
+	<IssuesTable />
   </Box>
 
   )
