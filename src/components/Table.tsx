@@ -26,11 +26,11 @@ import {
     PopoverBody,
     PopoverCloseButton,
     PopoverContent,
-    PopoverHeader,
     Popover
 } from '@chakra-ui/react'
 import { priorityBadgeColorSetter } from '../utils/priorityBadgeColor';
 import { deleteItem } from '../api/firestore-api';
+import { dateFormatter } from '../utils/dateFormater';
 
 export const IssuesTable = () => {
 
@@ -56,10 +56,6 @@ export const IssuesTable = () => {
 
     const handleDelete = (id: string) => {
         deleteItem(id)
-    }
-
-    const dateFormatter = (date: {seconds: number, nanoseconds: number}): string => {
-        return new Date(date.seconds * 1000 + date.nanoseconds / 1000000).toDateString();
     }
 
     return (
