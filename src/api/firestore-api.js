@@ -28,6 +28,13 @@ export const getAllIssues = async () => {
     return getArrayFromCollection(result);
 }
 
+// Delete single issue
+
+export const deleteItem = async (id) => {
+    const colRef = collection(db, 'issues');
+    await deleteDoc(doc(colRef, id));
+}
+
 
 
 
