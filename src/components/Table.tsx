@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useUserAuth } from '../contexts/userAuthContext';
 import { MyUserType } from '../types/myUserType';
-import {collection, DocumentData, onSnapshot, orderBy, query} from 'firebase/firestore';
+import { collection, DocumentData, onSnapshot, orderBy, query} from 'firebase/firestore';
 import { db } from '../firestore/firestore';
 import { Data } from '../types/tableIssueType';
 import { AssetsPaths } from '../utils/assets';
@@ -26,7 +26,6 @@ import {
     PopoverBody,
     PopoverCloseButton,
     PopoverContent,
-    PopoverFooter,
     PopoverHeader,
     Popover
 } from '@chakra-ui/react'
@@ -59,6 +58,10 @@ export const IssuesTable = () => {
         deleteItem(id)
     }
 
+    const dateFormatter = (date: {seconds: number, nanoseconds: number}): string => {
+        return new Date(date.seconds * 1000 + date.nanoseconds / 1000000).toDateString();
+    }
+
     return (
         <Box>
             {
@@ -77,6 +80,7 @@ export const IssuesTable = () => {
                             <Th>Added By</Th>
                             <Th>Assigned to</Th>
                             <Th>Status</Th>
+                            <Th isNumeric>Actions</Th>
                         </Tr>
                         </Thead>
                         <Tbody>
@@ -97,7 +101,7 @@ export const IssuesTable = () => {
                                             )
                                             }
                                         </Td>
-                                        <Td>
+                                        <Td isNumeric>
                                             <Popover>
                                                 <PopoverTrigger>
                                                     <Button colorScheme='pink' m='2px'>Details</Button>
@@ -105,18 +109,18 @@ export const IssuesTable = () => {
                                                 <PopoverContent width='100vh'>
                                                     <PopoverArrow />
                                                     <PopoverCloseButton />
-                                                    <PopoverHeader>{eachIssue.id}</PopoverHeader>
-                                                    <PopoverBody>
-                                                        <Box display='flex' alignItems='center'>
-                                                            <Text fontWeight='extrabold'>Priority:</Text>
-                                                            <Badge
-                                                                backgroundColor='black' 
-                                                                color={priorityBadgeColorSetter(eachIssue.data.priority)}
-                                                                ml='1vh'
-                                                                >
-                                                                {eachIssue.data.priority}
-                                                            </Badge>
-                                                        </Box>
+                                                    
+                                                    <PopoverBody display='flex' flexDirection='column' alignItems='baseline'>
+                                                        <Text fontWeight='extrabold'>ID: {eachIssue.id}</Text>
+                                                        <Text fontWeight='extrabold'>Created: {dateFormatter(eachIssue.data.created)}</Text>
+                                                        <Text fontWeight='extrabold'>Priority:</Text>
+                                                        <Badge
+                                                            backgroundColor='black' 
+                                                            color={priorityBadgeColorSetter(eachIssue.data.priority)}
+                                                            ml='1vh'
+                                                            >
+                                                            {eachIssue.data.priority}
+                                                        </Badge>
                                                     </PopoverBody>
                                                 </PopoverContent>
                                             </Popover>
