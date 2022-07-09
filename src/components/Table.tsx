@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { LegacyRef, RefObject, useEffect, useRef, useState } from 'react'
 import { useUserAuth } from '../contexts/userAuthContext';
 import { MyUserType } from '../types/myUserType';
 import { getAllIssues } from '../api/firestore-api';
@@ -21,13 +21,35 @@ import {
     Table, 
     Badge, 
     Text, 
-    Image
+    Image,
+    Button,
+    PopoverTrigger,
+    ButtonGroup,
+    PopoverArrow,
+    PopoverBody,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverFooter,
+    PopoverHeader,
+    Popover,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useDisclosure
 } from '@chakra-ui/react'
+import { priorityBadgeColorSetter } from '../utils/priorityBadgeColor';
+import { IssueType } from '../types/issueType';
+
 export const IssuesTable = () => {
 
     const { user } : { user: MyUserType } = useUserAuth();
     const [ allIssues, setAllIssues ] = useState<{ id: string; data: DocumentData | Data; }[]>([]);
     const [ loading, setLoading ] = useState<boolean>(true);
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     useEffect(() => {
         const loadAllIssues = () => {
@@ -40,10 +62,14 @@ export const IssuesTable = () => {
             })
         }
         if (user) {
-            setTimeout(() => setLoading(false), 1500);
-            setTimeout(() => loadAllIssues(), 1500);
+            setLoading(false)
+            loadAllIssues()
         }   
     }, [])
+
+    const handleShow = (issue: { id: string; data: DocumentData | Data; }) => {
+        console.log(issue)
+    }
 
     return (
         <Box>
@@ -69,6 +95,7 @@ export const IssuesTable = () => {
                             {
                             allIssues.map(eachIssue => {
                                 return (
+                                    <>
                                     <Tr>
                                         <Td>{eachIssue.id}</Td>
                                         <Td>{eachIssue.data.addedBy}</Td>
@@ -82,7 +109,37 @@ export const IssuesTable = () => {
                                             )
                                             }
                                         </Td>
+                                        <Td>
+                                            <Popover>
+                                                <PopoverTrigger>
+                                                    <Button colorScheme='pink' m='2px'>Details</Button>
+                                                </PopoverTrigger>
+                                                <PopoverContent width='100vh'>
+                                                    <PopoverArrow />
+                                                    <PopoverCloseButton />
+                                                    <PopoverHeader>{eachIssue.id}</PopoverHeader>
+                                                    <PopoverBody>
+                                                        <Box>
+                                                            <Text>Priority:</Text>
+                                                            <Badge 
+                                                                backgroundColor='black' 
+                                                                color={priorityBadgeColorSetter(eachIssue.data.priority)}
+
+                                                                >
+                                                                {eachIssue.data.priority}
+                                                            </Badge>
+                                                        </Box>
+                                                    </PopoverBody>
+                                                </PopoverContent>
+                                            </Popover>
+                                            
+                                            
+                                            <Button colorScheme='red' m='2px'>Delete</Button>
+                                        </Td>
                                     </Tr>
+                                    </>
+                                    
+                                    
                                 )
                             })
                             }
