@@ -54,8 +54,8 @@ export const IssuesTable = () => {
         }   
     }, [])
 
-    const handleDelete = (id: string) => {
-        deleteItem(id)
+    const handleDelete = (id: string, issue: DocumentData | Data ) => {
+        deleteItem(id, issue )
     }
 
     return (
@@ -85,15 +85,15 @@ export const IssuesTable = () => {
                                 return (
                                     <>
                                     <Tr>
-                                        <Td>{eachIssue.id}</Td>
-                                        <Td>{eachIssue.data.addedBy}</Td>
-                                        <Td>{eachIssue.data.assignedTo}</Td>
+                                        <Td fontWeight='extrabold'>{eachIssue.id}</Td>
+                                        <Td fontWeight='extrabold'>{eachIssue.data.addedBy}</Td>
+                                        <Td fontWeight='extrabold'>{eachIssue.data.assignedTo}</Td>
                                         <Td>
                                             {
                                             eachIssue.data.completed ? (
-                                                <Badge colorScheme='green'>COMPLETED</Badge>
+                                                <Badge colorScheme='green' fontWeight='extrabold'>COMPLETED</Badge>
                                             ) : (
-                                                <Badge colorScheme='red'>NOT COMPLETED</Badge>
+                                                <Badge colorScheme='red' fontWeight='extrabold'>NOT COMPLETED</Badge>
                                             )
                                             }
                                         </Td>
@@ -122,7 +122,7 @@ export const IssuesTable = () => {
                                             </Popover>
                                             
                                             <Button
-                                                onClick={() => handleDelete(eachIssue.id)}
+                                                onClick={() => handleDelete(eachIssue.id, eachIssue)}
                                                 colorScheme='red' 
                                                 m='2px'
                                                 >

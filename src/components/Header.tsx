@@ -70,6 +70,7 @@ export const Header = () => {
                 </MenuButton>
                 <MenuList>
                     <MenuItem onClick={onOpen}>Log Out</MenuItem>
+                    <MenuItem onClick={() => navigate('/deletedissues')}>Deleted History</MenuItem>
                 </MenuList>
             </Menu>
             <Modal isOpen={isOpen} onClose={onClose}>

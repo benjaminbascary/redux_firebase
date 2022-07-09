@@ -5,7 +5,7 @@ import { MyUserType } from '../types/myUserType'
 export const MyTeam = ({user} : {user: MyUserType}) => {
     return (
         <Box>
-			<Button colorScheme='pink'>My team</Button>
+			    <Button colorScheme='pink'>My team</Button>
         </Box>
   )
 }
