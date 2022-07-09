@@ -1,10 +1,8 @@
-import React, { LegacyRef, RefObject, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUserAuth } from '../contexts/userAuthContext';
 import { MyUserType } from '../types/myUserType';
-import { getAllIssues } from '../api/firestore-api';
 import {collection, DocumentData, onSnapshot, orderBy, query} from 'firebase/firestore';
 import { db } from '../firestore/firestore';
-import { TableIssueType } from '../types/tableIssueType';
 import { Data } from '../types/tableIssueType';
 import { AssetsPaths } from '../utils/assets';
 import { 
@@ -24,32 +22,22 @@ import {
     Image,
     Button,
     PopoverTrigger,
-    ButtonGroup,
     PopoverArrow,
     PopoverBody,
     PopoverCloseButton,
     PopoverContent,
     PopoverFooter,
     PopoverHeader,
-    Popover,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    useDisclosure
+    Popover
 } from '@chakra-ui/react'
 import { priorityBadgeColorSetter } from '../utils/priorityBadgeColor';
-import { IssueType } from '../types/issueType';
+import { deleteItem } from '../api/firestore-api';
 
 export const IssuesTable = () => {
 
     const { user } : { user: MyUserType } = useUserAuth();
     const [ allIssues, setAllIssues ] = useState<{ id: string; data: DocumentData | Data; }[]>([]);
     const [ loading, setLoading ] = useState<boolean>(true);
-    const { isOpen, onOpen, onClose } = useDisclosure()
 
     useEffect(() => {
         const loadAllIssues = () => {
@@ -62,13 +50,13 @@ export const IssuesTable = () => {
             })
         }
         if (user) {
-            setLoading(false)
-            loadAllIssues()
+            setLoading(false);
+            loadAllIssues();
         }   
     }, [])
 
-    const handleShow = (issue: { id: string; data: DocumentData | Data; }) => {
-        console.log(issue)
+    const handleDelete = (id: string) => {
+        deleteItem(id)
     }
 
     return (
@@ -119,12 +107,12 @@ export const IssuesTable = () => {
                                                     <PopoverCloseButton />
                                                     <PopoverHeader>{eachIssue.id}</PopoverHeader>
                                                     <PopoverBody>
-                                                        <Box>
-                                                            <Text>Priority:</Text>
-                                                            <Badge 
+                                                        <Box display='flex' alignItems='center'>
+                                                            <Text fontWeight='extrabold'>Priority:</Text>
+                                                            <Badge
                                                                 backgroundColor='black' 
                                                                 color={priorityBadgeColorSetter(eachIssue.data.priority)}
-
+                                                                ml='1vh'
                                                                 >
                                                                 {eachIssue.data.priority}
                                                             </Badge>
@@ -133,13 +121,16 @@ export const IssuesTable = () => {
                                                 </PopoverContent>
                                             </Popover>
                                             
-                                            
-                                            <Button colorScheme='red' m='2px'>Delete</Button>
+                                            <Button
+                                                onClick={() => handleDelete(eachIssue.id)}
+                                                colorScheme='red' 
+                                                m='2px'
+                                                >
+                                                Delete
+                                            </Button>
                                         </Td>
                                     </Tr>
                                     </>
-                                    
-                                    
                                 )
                             })
                             }
