@@ -13,8 +13,10 @@ import {
     Alert,
     AlertIcon,
     HStack,
-    Spinner
+    Spinner,
+    Img
 } from '@chakra-ui/react';
+import { AssetsPaths } from '../utils/assets';
 
 type UserState = {
     email: string;
@@ -50,12 +52,7 @@ export const SignUp = (): JSX.Element => {
     return (
         <HStack>
             <Box className='login-logout-left-container' width='70vh' height='100vh' backgroundColor='green.100'>
-
-            </Box>
-            <Box className='spinner-container' width='20vh' height='100vh' display='flex' flexDirection='column' justifyContent='center' alignItems='end'>
-                {
-                    loading && <Spinner className='spinner-container'/>
-                }
+                <Img className='login-logout-left-container' src={AssetsPaths.SignUp} />
             </Box>
             <Box display='flex' flexDirection='column' height='100vh' width='110vh' justifyContent='center'>
                 <Heading display='flex' justifyContent='center' m='2vh'>Sing Up</Heading>
