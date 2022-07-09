@@ -20,6 +20,13 @@ export const createIssue = (obj) => {
     return addDoc(colRef, obj).id;
 }
 
+//Create deletedIssue to be used later on deleteItem
+
+export const createDeletedIssue = (obj) => {
+    const colRef = collection(db, 'deletedissues')
+    return addDoc(colRef, obj).id;
+}
+
 // Get all issues
 
 export const getAllIssues = async () => {
@@ -30,12 +37,19 @@ export const getAllIssues = async () => {
 
 // Delete single issue
 
-export const deleteItem = async (id) => {
+export const deleteItem = async (id, obj) => {
     const colRef = collection(db, 'issues');
+    await createDeletedIssue(obj);
     await deleteDoc(doc(colRef, id));
 }
 
+// Get all deletedIssues
 
+export const getAllDeletedIssues = async () => {
+    const colRef = collection(db, 'deletedissues');
+    const result = await getDocs(query(colRef));
+    return await getArrayFromCollection(result);
+}
 
 
 

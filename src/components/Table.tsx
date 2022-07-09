@@ -54,8 +54,8 @@ export const IssuesTable = () => {
         }   
     }, [])
 
-    const handleDelete = (id: string) => {
-        deleteItem(id)
+    const handleDelete = (id: string, issue: DocumentData | Data ) => {
+        deleteItem(id, issue )
     }
 
     return (
@@ -122,7 +122,7 @@ export const IssuesTable = () => {
                                             </Popover>
                                             
                                             <Button
-                                                onClick={() => handleDelete(eachIssue.id)}
+                                                onClick={() => handleDelete(eachIssue.id, eachIssue)}
                                                 colorScheme='red' 
                                                 m='2px'
                                                 >
