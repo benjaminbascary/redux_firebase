@@ -6,6 +6,7 @@ import { db } from '../firestore/firestore';
 import { Data } from '../types/tableIssueType';
 import { Header } from './Header';
 import { 
+    Badge,
     Box, 
     Button, 
     Heading, 
@@ -42,10 +43,9 @@ export const DeletedIssues = () => {
 
     }, [])
 
-    console.log(deletedHistory);
     const navigateHome = () => {
-        navigate('/home')
-    }
+        navigate('/home');
+    };
 
     return (
         <>
@@ -61,34 +61,29 @@ export const DeletedIssues = () => {
                             <TableCaption>Deleted Issues</TableCaption>
                             <Thead>
                             <Tr>
-                                <Th>To convert</Th>
-                                <Th>into</Th>
-                                <Th isNumeric>multiply by</Th>
+                                <Th>ID</Th>
+                                <Th>Completed?</Th>
+                                <Th>Issue</Th>
                             </Tr>
                             </Thead>
                             <Tbody>
-                            <Tr>
-                                <Td>inches</Td>
-                                <Td>millimetres (mm)</Td>
-                                <Td isNumeric>25.4</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>feet</Td>
-                                <Td>centimetres (cm)</Td>
-                                <Td isNumeric>30.48</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>yards</Td>
-                                <Td>metres (m)</Td>
-                                <Td isNumeric>0.91444</Td>
-                            </Tr>
+                                {
+                                    deletedHistory.map(eachIssue => {
+                                        return (
+                                            <Tr key={eachIssue.id}>
+                                                <Td fontWeight='extrabold'>{eachIssue.id}</Td>
+                                                <Td>
+                                                    <Badge colorScheme={eachIssue.data.completed ? 'green' : 'red'}>{eachIssue.data.completed ? 'COMPLETED' : 'NOT COMPLETED'}</Badge>
+                                                </Td>
+                                                <Td>{eachIssue.data.created}</Td>
+                                            </Tr>
+                                        )
+                                    })
+                                }
                             </Tbody>
                             <Tfoot>
-                            <Tr>
-                                <Th>To convert</Th>
-                                <Th>into</Th>
-                                <Th isNumeric>multiply by</Th>
-                            </Tr>
+                            
+                            
                             </Tfoot>
                         </Table>
                     </TableContainer>
