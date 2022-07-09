@@ -3,6 +3,7 @@ import GoogleButton from 'react-google-button';
 import { useUserAuth } from '../contexts/userAuthContext';
 import { LogInType } from '../types/logIn';
 import { useNavigate } from 'react-router-dom';
+import { AssetsPaths } from '../utils/assets';
 import { 
     Alert,
     AlertIcon,
@@ -13,6 +14,7 @@ import {
     FormLabel, 
     Heading, 
     HStack, 
+    Img, 
     Input, 
     Spinner, 
     Text 
@@ -59,12 +61,7 @@ export const Login = () => {
     return (
         <HStack className='login-logout-container'>
             <Box className='login-logout-left-container' width='70vh' height='100vh' backgroundColor='blue.200'>
-                
-            </Box>
-            <Box className='spinner-container' width='20vh' height='100vh' display='flex' flexDirection='column' justifyContent='center' alignItems='end'>
-                {
-                    loading && <Spinner className='spinner-container'/>
-                }
+                <Img className='login-logout-left-container' src={AssetsPaths.LogIn} />
             </Box>
             <Box width='110vh'>
                 <Heading display='flex' justifyContent='center' m='2vh'>Log In</ Heading>
