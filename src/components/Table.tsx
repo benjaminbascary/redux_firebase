@@ -26,18 +26,30 @@ import {
     PopoverBody,
     PopoverCloseButton,
     PopoverContent,
-    Popover
+    Popover,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useDisclosure,
+    useToast,
 } from '@chakra-ui/react'
 import { priorityBadgeColorSetter } from '../utils/priorityBadgeColor';
 import { deleteItem } from '../api/firestore-api';
 import { dateFormatter } from '../utils/dateFormater';
+import { deleteToastOptions } from '../utils/deleteToastOptions';
 
 export const IssuesTable = () => {
 
     const { user } : { user: MyUserType } = useUserAuth();
     const [ allIssues, setAllIssues ] = useState<{ id: string; data: DocumentData | Data; }[]>([]);
     const [ loading, setLoading ] = useState<boolean>(true);
-
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const toast = useToast();
+    
     useEffect(() => {
         const loadAllIssues = () => {
             const q = query(collection(db, 'issues'), orderBy('created', 'desc'))
@@ -55,7 +67,9 @@ export const IssuesTable = () => {
     }, [])
 
     const handleDelete = (id: string, issue: DocumentData | Data ) => {
-        deleteItem(id, issue )
+        setTimeout(() => toast(deleteToastOptions), 1000);
+        setTimeout(() => deleteItem(id, issue ), 1000)
+        onClose();
     }
 
     return (
@@ -69,7 +83,7 @@ export const IssuesTable = () => {
                 (allIssues.length > 0) ? (
                 <TableContainer>
                     <Table variant='striped' colorScheme='teal'>
-                        <TableCaption>Latest issues</TableCaption>
+                        <TableCaption>Active issues</TableCaption>
                         <Thead>
                         <Tr>
                             <Th>ID</Th>
@@ -122,12 +136,31 @@ export const IssuesTable = () => {
                                             </Popover>
                                             
                                             <Button
-                                                onClick={() => handleDelete(eachIssue.id, eachIssue)}
+                                                onClick={onOpen}
                                                 colorScheme='red' 
                                                 m='2px'
                                                 >
                                                 Delete
                                             </Button>
+                                            <Modal isOpen={isOpen} onClose={onClose}>
+                                                <ModalOverlay />
+                                                <ModalContent>
+                                                <ModalHeader>Modal Title</ModalHeader>
+                                                <ModalCloseButton />
+                                                <ModalBody>
+                                                    Delete modal
+                                                </ModalBody>
+
+                                                <ModalFooter>
+                                                    <Button variant='red' onClick={() => handleDelete(eachIssue.id, eachIssue)}>
+                                                        Delete
+                                                    </Button>
+                                                    <Button colorScheme='blue' mr={3} onClick={onClose}>
+                                                        Close
+                                                    </Button>
+                                                </ModalFooter>
+                                                </ModalContent>
+                                            </Modal>
                                         </Td>
                                     </Tr>
                                     </>

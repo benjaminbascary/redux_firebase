@@ -21,7 +21,8 @@ import {
     Select, 
     Spinner, 
     Textarea, 
-    useDisclosure
+    useDisclosure,
+    useToast
 } from '@chakra-ui/react';
 
 
@@ -31,6 +32,7 @@ export const AddIssueForm = ({ user } : { user: MyUserType }) => {
     const [ showSpinner, setShowSpinner ] = useState<boolean>(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [ myOptions, setMyOptions] = useState<OptionsType[]>(priorityOptions);
+    const toast = useToast();
     const [ issue, setIssue ] = useState<IssueType>({
         addedBy: myUser?.displayName,
         issue: '',
@@ -59,7 +61,13 @@ export const AddIssueForm = ({ user } : { user: MyUserType }) => {
         setShowSpinner(prevValue => !prevValue);
         setTimeout(() => setShowSpinner(prevValue => !prevValue), 1100);
         setTimeout(() => createIssue(issue), 1100);
-        ;
+        setTimeout(() => toast({
+            title: 'Ticket created!',
+            description: "The issue was added correctly.",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        }), 1100);
     }
     
     return (
@@ -70,7 +78,7 @@ export const AddIssueForm = ({ user } : { user: MyUserType }) => {
                 color='white'
                 onClick={onOpen}
             >
-                + Add new issue
+            + Add new issue
             </Button>
             
                 <Modal size='4xl' onClose={onClose} isOpen={isOpen} isCentered>
