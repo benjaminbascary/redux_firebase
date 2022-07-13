@@ -81,7 +81,7 @@ export const AddIssueForm = ({ user } : { user: MyUserType }) => {
             + Add new issue
             </Button>
             
-                <Modal size='4xl' onClose={onClose} isOpen={isOpen} isCentered>
+                <Modal size='6xl' onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Adding new issue</ModalHeader>
