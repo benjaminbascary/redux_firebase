@@ -8,10 +8,11 @@
 /.env
 # testing
 /coverage
-
+.env
 # production
 /build
-
+env
+*.env
 # misc
 .DS_Store
 .env.local
